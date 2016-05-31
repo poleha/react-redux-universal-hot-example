@@ -7,11 +7,16 @@ const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
 const LOGOUT = 'redux-example/auth/LOGOUT';
 const LOGOUT_SUCCESS = 'redux-example/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'redux-example/auth/LOGOUT_FAIL';
+//Объявляем константы с путями, чтобы не было путаницы
+
 
 const initialState = {
   loaded: false
 };
+//Начальное состояние
 
+
+//Редуктор. С ним все ясно.
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD:
@@ -73,10 +78,12 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
+//Функция, получающая state и возвращающая инфо залогинен ли пользователь
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
+//Функция, возвращающая объект. С types все понятно, а promise - функция, получает client, возвращает client.get('/loadAuth') 
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],

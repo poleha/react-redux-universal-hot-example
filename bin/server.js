@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 require('../server.babel'); // babel registration (runtime transpilation for node)
+//Позволяет трансформировать прямо в node.js. В обычном случае node.js не умеет много вывых фич.
 var path = require('path');
+
 var rootDir = path.resolve(__dirname, '..');
 /**
  * Define isomorphic constants.

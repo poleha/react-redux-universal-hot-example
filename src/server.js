@@ -20,12 +20,20 @@ import {Provider} from 'react-redux';
 import getRoutes from './routes';
 
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
+//Путь к api
+
 const pretty = new PrettyError();
+//Выводит ошибки красивее. Usage pretty.render(error)
+
 const app = new Express();
+//Express app
+
 const server = new http.Server(app);
+//Создаем сервер. Потом его можно будет server.listen.
+
 const proxy = httpProxy.createProxyServer({
-  target: targetUrl,
-  ws: true
+  target: targetUrl, //Это api url
+  ws: true //websocket
 });
 
 app.use(compression());
@@ -38,10 +46,14 @@ app.use('/api', (req, res) => {
   proxy.web(req, res, {target: targetUrl});
 });
 
+
+//При обращении по адресу /ws запрос переадресован на targetUrl + /ws
 app.use('/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
 
+//The Upgrade header field is intended to provide a simple mechanism for transition from HTTP/1.1 to some other, incompatible protocol.
+//https://nodejs.org/api/http.html#http_event_upgrade
 server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head);
 });
@@ -120,3 +132,5 @@ if (config.port) {
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');
 }
+
+
